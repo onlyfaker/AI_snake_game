@@ -14,7 +14,7 @@ while running:
             running=False
 # pygame.display.flip()	- for larger screen update
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(60)#max 60 fps
 
 pygame.quit()
 sys.exit()
