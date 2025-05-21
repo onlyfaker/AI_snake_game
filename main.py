@@ -18,10 +18,12 @@ while running:
             running=False
 
     screen.fill((100,23,87))
+
+    test_old_rect.left+=1
+
     screen.blit(test_surface,test_old_rect)#position
 
     # pygame.draw.ellipse(surface=screen,color = "white",rect=test_rect)# drawing with new rect
-
 # pygame.display.flip()	- for larger screen update
     pygame.display.update()
     clock.tick(60)#max 60 fps
