@@ -7,26 +7,22 @@ pygame.init()
 screen = pygame.display.set_mode((400, 400))
 clock = pygame.time.Clock()
 
+#size
+test_surface = pygame.Surface((100,100))
 
-test_surface = pygame.Surface((100,100))#size
-# test_rect = pygame.Rect(150,200,100,100) #creating a new rect
-test_old_rect = test_surface.get_rect(center = (200,200))
+#taking rect(position) from surface, and setting its new position
+test_rect = test_surface.get_rect(center = (200,200))
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running=False
 
-    screen.fill((100,23,87))
+    screen.fill((111, 148, 118))
 
-    test_old_rect.left+=1
-
-    screen.blit(test_surface,test_old_rect)#position
-
-    # pygame.draw.ellipse(surface=screen,color = "white",rect=test_rect)# drawing with new rect
-# pygame.display.flip()	- for larger screen update
     pygame.display.update()
-    clock.tick(60)#max 60 fps
+# max 60 fps
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
