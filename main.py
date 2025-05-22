@@ -1,5 +1,5 @@
 import pygame,sys
-# TODO - transform the turtle snake logic to pygame snake lodgic
+# TODO - transform the turtle snake logic to pygame snake logic
 
 # clock limits how fast our loop runs
 # Going over the pygame documentation
