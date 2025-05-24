@@ -5,7 +5,9 @@ import pygame,sys
 # Going over the pygame documentation
 
 pygame.init()
-screen = pygame.display.set_mode((400, 400))
+cell_size = 40
+cell_number = 20
+screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
 
 #size
