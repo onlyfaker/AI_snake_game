@@ -7,6 +7,7 @@ class Snake():
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(6,10),Vector2(7,10)]
         self.direction = Vector2(1,0)
+        self.new_block = False
 
     def draw_snake(self):
         for block in self.body:
@@ -16,19 +17,46 @@ class Snake():
             pygame.draw.rect(screen,(155,15,155),body_rect)
 
     def move_snake(self):
-        body_copy = self.body[:-1]#slicing
-        body_copy.insert(0,body_copy[0]+ self.direction)
-        self.body = body_copy
+        if self.new_block == True:
+            body_copy = self.body[:]  # slicing
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy
+            self.new_block = False
+        else:
+            body_copy = self.body[:-1]#slicing
+            body_copy.insert(0,body_copy[0]+ self.direction)
+            self.body = body_copy
+    def add_block(self):
+        self.new_block = True
 class Food():
     def __init__(self):
-        self.x = random.randint(0,cell_number-1)
-        self.y = random.randint(0,cell_number-1)
-        self.pos = Vector2(self.x,self.y)
+        self.randomize()
     def draw_fruit(self):
         fruit_rect = pygame.Rect(self.pos.x*cell_size,self.pos.y *cell_size,cell_size,cell_size)#add int() if there is an errror here
         pygame.draw.rect(screen,(44,44,44),fruit_rect)
+
+    def randomize(self):
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        self.pos = Vector2(self.x, self.y)
 # clock limits how fast our loop runs
 # Going over the pygame documentation
+class Main():
+    def __init__(self):
+        self.snake = Snake()
+        self.fruit = Food()
+
+    def update(self):
+        self.snake.move_snake()
+
+    def draw_elements(self):
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+    def check_collision(self):
+        if self.fruit.pos == self.snake.body[0]:
+            self.fruit.randomize()
+            self.snake.add_block()
+
 
 pygame.init()
 cell_size = 40
@@ -36,10 +64,11 @@ cell_number = 20
 screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
 
-fruit = Food()
-snake = Snake()
+
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,150)
+
+main_game = Main()
 
 running = True
 while running:
@@ -47,21 +76,20 @@ while running:
         if event.type == pygame.QUIT:
             running=False
         if event.type == SCREEN_UPDATE:
-            snake.move_snake()
+            main_game.update()
+            main_game.check_collision()
         if event.type == pygame.KEYDOWN:
-            if event.key ==pygame.K_UP:
-                snake.direction = Vector2(0,-1)
-            if event.key ==pygame.K_DOWN:
-                snake.direction = Vector2(0,1)
-            if event.key ==pygame.K_LEFT:
-                snake.direction = Vector2(-1,0)
-            if event.key ==pygame.K_RIGHT:
-                snake.direction = Vector2(1,0)
+            if event.key == pygame.K_UP:
+                main_game.snake.direction = Vector2(0,-1)
+            if event.key == pygame.K_DOWN:
+                main_game.snake.direction = Vector2(0,1)
+            if event.key == pygame.K_LEFT:
+                main_game.snake.direction = Vector2(-1,0)
+            if event.key == pygame.K_RIGHT:
+                main_game.snake.direction = Vector2(1,0)
 
     screen.fill((111, 148, 118))
-
-    fruit.draw_fruit()
-    snake.draw_snake()
+    main_game.draw_elements()
     pygame.display.update()
 # max 60 fps
     clock.tick(60)
