@@ -68,8 +68,9 @@ class Main():
                 self.game_over()
                 #chechk for snake collsion with itself
     def game_over(self):
-        print('dead')
-
+        running = False
+        pygame.quit()
+        sys.exit()
 
 pygame.init()
 cell_size = 40
