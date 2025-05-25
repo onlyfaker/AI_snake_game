@@ -1,7 +1,8 @@
 import pygame,sys,random
 from pygame.math import Vector2
 
-# TODO - transform the turtle snake logic to pygame snake logic
+# TODO/done - transform the turtle snake logic to pygame snake logic
+# TODO - snake graphics!
 
 class Snake():
     def __init__(self):
@@ -33,7 +34,9 @@ class Food():
         self.randomize()
     def draw_fruit(self):
         fruit_rect = pygame.Rect(self.pos.x*cell_size,self.pos.y *cell_size,cell_size,cell_size)#add int() if there is an errror here
-        pygame.draw.rect(screen,(44,44,44),fruit_rect)
+        screen.blit(berry,fruit_rect)
+        #pygame.draw.rect(screen,(44,44,44),fruit_rect)
+
 
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
@@ -77,7 +80,8 @@ cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
-
+berry = pygame.image.load('graphics/apple.png').convert_alpha()
+berry = pygame.transform.scale(berry, (cell_size, cell_size))
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,150)
