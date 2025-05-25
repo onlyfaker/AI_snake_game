@@ -11,8 +11,8 @@ class Snake():
 
     def draw_snake(self):
         for block in self.body:
-            x_pos = block.x*cell_size
-            y_pos = block.y*cell_size
+            x_pos = int(block.x*cell_size)
+            y_pos = int(block.y*cell_size)
             body_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
             pygame.draw.rect(screen,(155,15,155),body_rect)
 
@@ -48,6 +48,8 @@ class Main():
 
     def update(self):
         self.snake.move_snake()
+        self.check_food_collision()
+        self.check_collision()
 
     def draw_elements(self):
         self.fruit.draw_fruit()
@@ -58,8 +60,11 @@ class Main():
             self.snake.add_block()
 
     def check_collision(self):
+        if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number :
+            self.game_over()
         #chechk for snake collsion with itself
-#check colllsion with wall
+    def game_over(self):
+        print('hit wall')
 
 
 pygame.init()
@@ -81,7 +86,6 @@ while running:
             running=False
         if event.type == SCREEN_UPDATE:
             main_game.update()
-            main_game.check_food_collision()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 main_game.snake.direction = Vector2(0,-1)
