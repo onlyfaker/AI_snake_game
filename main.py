@@ -6,6 +6,7 @@ from pygame.math import Vector2
 class Snake():
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(6,10),Vector2(7,10)]
+        self.direction = Vector2(1,0)
 
     def draw_snake(self):
         for block in self.body:
@@ -13,6 +14,11 @@ class Snake():
             y_pos = block.y*cell_size
             body_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
             pygame.draw.rect(screen,(155,15,155),body_rect)
+
+    def move_snake(self):
+        body_copy = self.body[:-1]#slicing
+        body_copy.insert(0,body_copy[1]+ self.direction)
+        self.body = body_copy
 class Food():
     def __init__(self):
         self.x = random.randint(0,cell_number-1)
@@ -32,12 +38,16 @@ clock = pygame.time.Clock()
 
 fruit = Food()
 snake = Snake()
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE,150)
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running=False
+        if event.type == SCREEN_UPDATE:
+            snake.move_snake()
 
     screen.fill((111, 148, 118))
 
