@@ -17,7 +17,7 @@ class Snake():
 
     def move_snake(self):
         body_copy = self.body[:-1]#slicing
-        body_copy.insert(0,body_copy[1]+ self.direction)
+        body_copy.insert(0,body_copy[0]+ self.direction)
         self.body = body_copy
 class Food():
     def __init__(self):
@@ -48,6 +48,15 @@ while running:
             running=False
         if event.type == SCREEN_UPDATE:
             snake.move_snake()
+        if event.type == pygame.KEYDOWN:
+            if event.key ==pygame.K_UP:
+                snake.direction = Vector2(0,-1)
+            if event.key ==pygame.K_DOWN:
+                snake.direction = Vector2(0,1)
+            if event.key ==pygame.K_LEFT:
+                snake.direction = Vector2(-1,0)
+            if event.key ==pygame.K_RIGHT:
+                snake.direction = Vector2(1,0)
 
     screen.fill((111, 148, 118))
 
