@@ -8,6 +8,8 @@ class Snake():
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(1,0)
+        self.next_direction = Vector2(1, 0)
+        self.is_turning = False  # Flag to prevent multiple turns per move cycle
         self.new_block = False
 
     def draw_snake(self):
@@ -18,6 +20,8 @@ class Snake():
             pygame.draw.rect(screen,(155,15,155),body_rect)
 
     def move_snake(self):
+        if self.direction != self.next_direction:
+            self.direction = self.next_direction
         if self.new_block == True:
             body_copy = self.body[:]  # slicing
             body_copy.insert(0, body_copy[0] + self.direction)
@@ -27,8 +31,32 @@ class Snake():
             body_copy = self.body[:-1]#slicing
             body_copy.insert(0,body_copy[0]+ self.direction)
             self.body = body_copy
+        self.is_turning=False
     def add_block(self):
         self.new_block = True
+
+    def change_direction_up(self):
+        # Only change direction if not going in the opposite direction and not already turning
+        if self.direction.y != 1 and not self.is_turning:
+            self.next_direction = Vector2(0, -1)
+            self.is_turning = True
+
+    def change_direction_down(self):
+        if self.direction.y != -1 and not self.is_turning:
+            self.next_direction = Vector2(0, 1)
+            self.is_turning = True
+
+    def change_direction_left(self):
+        if self.direction.x != 1 and not self.is_turning:
+            self.next_direction = Vector2(-1, 0)
+            self.is_turning = True
+
+    def change_direction_right(self):
+        if self.direction.x != -1 and not self.is_turning:
+            self.next_direction = Vector2(1, 0)
+            self.is_turning = True
+
+
 class Food():
     def __init__(self):
         self.randomize()
@@ -97,17 +125,13 @@ while running:
             main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                if main_game.snake.direction.y != 1:
-                    main_game.snake.direction = Vector2(0,-1)
+                main_game.snake.change_direction_up()
             if event.key == pygame.K_DOWN:
-                if main_game.snake.direction.y != -1:
-                    main_game.snake.direction = Vector2(0,1)
+                main_game.snake.change_direction_down()
             if event.key == pygame.K_LEFT:
-                if main_game.snake.direction.x != 1:
-                    main_game.snake.direction = Vector2(-1,0)
+                main_game.snake.change_direction_left()
             if event.key == pygame.K_RIGHT:
-                if main_game.snake.direction.x != -1:
-                    main_game.snake.direction = Vector2(1,0)
+                main_game.snake.change_direction_right()
 
     screen.fill((111, 148, 118))
     main_game.draw_elements()
