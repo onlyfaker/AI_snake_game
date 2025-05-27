@@ -12,6 +12,23 @@ class Snake():
         self.is_turning = False  # Flag to prevent multiple turns per move cycle
         self.new_block = False
 
+        self.head_up = pygame.image.load('snake_graphics/head_up.png').convert_alpha()
+        self.head_down = pygame.image.load('snake_graphics/head_down.png').convert_alpha()
+        self.head_right = pygame.image.load('snake_graphics/head_right.png').convert_alpha()
+        self.head_left = pygame.image.load('snake_graphics/head_left.png').convert_alpha()
+
+        self.tail_up = pygame.image.load('snake_graphics/tail_up.png').convert_alpha()
+        self.tail_down = pygame.image.load('snake_graphics/tail_down.png').convert_alpha()
+        self.tail_right = pygame.image.load('snake_graphics/tail_right.png').convert_alpha()
+        self.tail_left = pygame.image.load('snake_graphics/tail_left.png').convert_alpha()
+
+        self.body_vertical = pygame.image.load('snake_graphics/body_vertical.png').convert_alpha()
+        self.body_horizontal= pygame.image.load('snake_graphics/body_horizontal.png').convert_alpha()
+
+        self.body_tr = pygame.image.load('snake_graphics/body_topright.png').convert_alpha()
+        self.body_tl = pygame.image.load('snake_graphics/body_topleft.png').convert_alpha()
+        self.body_br = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
+        self.body_bl = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
     def draw_snake(self):
         for block in self.body:
             x_pos = int(block.x*cell_size)
