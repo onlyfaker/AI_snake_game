@@ -30,11 +30,17 @@ class Snake():
         self.body_br = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
         self.body_bl = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
     def draw_snake(self):
-        for block in self.body:
-            x_pos = int(block.x*cell_size)
-            y_pos = int(block.y*cell_size)
-            body_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
-            pygame.draw.rect(screen,(155,15,155),body_rect)
+        for index,block in enumerate(self.body):
+            # 1. still need rect for pos
+            #2. what direction is our face heading
+
+
+
+        # for block in self.body:
+        #     x_pos = int(block.x*cell_size)
+        #     y_pos = int(block.y*cell_size)
+        #     body_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
+        #     pygame.draw.rect(screen,(155,15,155),body_rect)
 
     def move_snake(self):
         if self.direction != self.next_direction:
