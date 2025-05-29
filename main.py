@@ -27,8 +27,8 @@ class Snake():
 
         self.body_tr = pygame.image.load('snake_graphics/body_topright.png').convert_alpha()
         self.body_tl = pygame.image.load('snake_graphics/body_topleft.png').convert_alpha()
-        self.body_br = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
-        self.body_bl = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
+        self.body_bl = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
+        self.body_br = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
@@ -36,13 +36,26 @@ class Snake():
             x_pos = int(block.x*cell_size)
             y_pos = int(block.y*cell_size)
             block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
-        #2. what direction is our face heading
             if index == 0:
                 screen.blit(self.head,block_rect)
             elif index == len(self.body) - 1:
                 screen.blit(self.tail, block_rect)
             else:
-                pygame.draw.rect(screen,(150,11,150),block_rect)
+                previous_block = self.body[index+1] - block
+                next_block = self.body[index - 1]- block
+                if previous_block.x == next_block.x:
+                    screen.blit(self.body_vertical,block_rect)
+                elif previous_block.y == next_block.y:
+                    screen.blit(self.body_horizontal, block_rect)
+                else:
+                    if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
+                        screen.blit(self.body_br,block_rect)
+                    elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
+                        screen.blit(self.body_tr,block_rect)
+                    elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
+                        screen.blit(self.body_bl,block_rect)
+                    elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
+                        screen.blit(self.body_tl,block_rect)
 
     def update_head_graphics(self):
         head_turn_point = self.body[1] - self.body[0]
