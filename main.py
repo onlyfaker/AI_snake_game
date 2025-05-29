@@ -30,18 +30,33 @@ class Snake():
         self.body_br = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
         self.body_bl = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
     def draw_snake(self):
+        self.update_head_graphics()
+        self.update_tail_graphics()
         for index,block in enumerate(self.body):
-            # 1. still need rect for pos
-            #2. what direction is our face heading
+            x_pos = int(block.x*cell_size)
+            y_pos = int(block.y*cell_size)
+            block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
+        #2. what direction is our face heading
+            if index == 0:
+                screen.blit(self.head,block_rect)
+            elif index == len(self.body) - 1:
+                screen.blit(self.tail, block_rect)
+            else:
+                pygame.draw.rect(screen,(150,11,150),block_rect)
 
+    def update_head_graphics(self):
+        head_turn_point = self.body[1] - self.body[0]
+        if head_turn_point == Vector2(1,0): self.head = self.head_left
+        elif head_turn_point == Vector2(-1,0): self.head = self.head_right
+        elif head_turn_point == Vector2(0,1): self.head = self.head_up
+        elif head_turn_point == Vector2(0,-1): self.head = self.head_down
 
-
-        # for block in self.body:
-        #     x_pos = int(block.x*cell_size)
-        #     y_pos = int(block.y*cell_size)
-        #     body_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
-        #     pygame.draw.rect(screen,(155,15,155),body_rect)
-
+    def update_tail_graphics(self):
+        tail_turn_point = self.body[-2] - self.body[-1]
+        if tail_turn_point == Vector2(1,0): self.tail = self.tail_left
+        elif tail_turn_point == Vector2(-1,0): self.tail = self.tail_right
+        elif tail_turn_point == Vector2(0,1): self.tail = self.tail_up
+        elif tail_turn_point == Vector2(0,-1): self.tail = self.tail_down
     def move_snake(self):
         if self.direction != self.next_direction:
             self.direction = self.next_direction
@@ -156,7 +171,7 @@ while running:
             if event.key == pygame.K_RIGHT:
                 main_game.snake.change_direction_right()
 
-    screen.fill((111, 148, 118))
+    screen.fill((80, 224, 32))
     main_game.draw_elements()
     pygame.display.update()
 # max 60 fps
