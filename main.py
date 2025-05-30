@@ -137,6 +137,7 @@ class Main():
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+        self.draw_score()
     def check_food_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
@@ -167,6 +168,14 @@ class Main():
                     if col % 2 != 0:
                         grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rect)
+    def draw_score(self):
+        score_text = str(len(self.snake.body)-3)
+        score_surface = game_font.render(score_text,True,"black")
+        score_x = int(cell_size*cell_number-70)
+        score_y = int(cell_size+20)
+        score_rect = score_surface.get_rect(center = (score_x,score_y))
+        apple_rect = berry.get_rect(midright = (score_rect.left,score_rect.centery))
+        screen.blit(score_surface,score_rect)
 
 pygame.init()
 cell_size = 40
@@ -175,6 +184,7 @@ screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
 berry = pygame.image.load('graphics/apple.png').convert_alpha()
 berry = pygame.transform.scale(berry, (cell_size, cell_size))
+game_font = pygame.font.Font(None,25)
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,150)
