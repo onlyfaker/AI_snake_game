@@ -175,7 +175,13 @@ class Main():
         score_y = int(cell_size+20)
         score_rect = score_surface.get_rect(center = (score_x,score_y))
         apple_rect = berry.get_rect(midright = (score_rect.left,score_rect.centery))
+        bg_rect = pygame.Rect(apple_rect.left-3,apple_rect.top+1,apple_rect.width+score_rect.width+6,apple_rect.height)
+
+        pygame.draw.rect(screen,(100,230,30),bg_rect)
         screen.blit(score_surface,score_rect)
+        screen.blit(berry,apple_rect)
+        pygame.draw.rect(screen,'black',bg_rect,2)
+
 
 pygame.init()
 cell_size = 40
@@ -184,7 +190,7 @@ screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
 berry = pygame.image.load('graphics/apple.png').convert_alpha()
 berry = pygame.transform.scale(berry, (cell_size, cell_size))
-game_font = pygame.font.Font(None,25)
+game_font = pygame.font.Font(None,50)
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,150)
