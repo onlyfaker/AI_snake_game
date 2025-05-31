@@ -4,10 +4,11 @@ from pygame.math import Vector2
 
 # TODO/done - transform the turtle snake logic to pygame snake logic
 # TODO/done - snake graphics
-# TODO - make my own graphics(draw?)? graphics - 40x40(online resize)
+# TODO - make my own graphics - change this at the end after AI agents...
 # TODO/done - instead of game over, make the snake reset position(reset_snake method)
 # TODO/done - pause snake movement until key is pressed after reset
 # TODO/done - track high score with text file
+# TODO - implement AI
 class Snake():
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
@@ -18,7 +19,7 @@ class Snake():
         self.moving = False  # Flag to control whether snake moves
 
         self.head_up = pygame.image.load('snake_graphics/head_up.png').convert_alpha()
-        self.head_down = pygame.image.load('snake_graphics/head_down.png').convert_alpha()
+        self.head_down = pygame.image.load('snake_graphics/head_down2.png').convert_alpha()
         self.head_right = pygame.image.load('snake_graphics/head_right.png').convert_alpha()
         self.head_left = pygame.image.load('snake_graphics/head_left.png').convert_alpha()
 
@@ -367,7 +368,7 @@ while running:
     main_game.draw_elements()
     pygame.display.update()
     # max 60 fps
-    clock.tick(60)
+    clock.tick(120)
 
 pygame.quit()
 sys.exit()
