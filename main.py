@@ -1,9 +1,11 @@
-import pygame,sys,random
+import pygame, sys, random
 from pygame.math import Vector2
 
-# TODO/done - transform the turtle snake logic to pygame snake logic
-# TODO - snake graphics!
 
+# TODO/done - transform the turtle snake logic to pygame snake logic
+# TODO/done - snake graphics
+# TODO - make my own graphics(draw?)? graphics - 40x40(online resize)
+# TODO -  instead of game over, make teh snake reset position(reset_snake method)
 class Snake():
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
@@ -29,6 +31,7 @@ class Snake():
         self.body_tl = pygame.image.load('snake_graphics/body_topleft.png').convert_alpha()
         self.body_bl = pygame.image.load('snake_graphics/body_bottomleft.png').convert_alpha()
         self.body_br = pygame.image.load('snake_graphics/body_bottomright.png').convert_alpha()
+
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
@@ -59,17 +62,26 @@ class Snake():
 
     def update_head_graphics(self):
         head_turn_point = self.body[1] - self.body[0]
-        if head_turn_point == Vector2(1,0): self.head = self.head_left
-        elif head_turn_point == Vector2(-1,0): self.head = self.head_right
-        elif head_turn_point == Vector2(0,1): self.head = self.head_up
-        elif head_turn_point == Vector2(0,-1): self.head = self.head_down
+        if head_turn_point == Vector2(1, 0):
+            self.head = self.head_left
+        elif head_turn_point == Vector2(-1, 0):
+            self.head = self.head_right
+        elif head_turn_point == Vector2(0, 1):
+            self.head = self.head_up
+        elif head_turn_point == Vector2(0, -1):
+            self.head = self.head_down
 
     def update_tail_graphics(self):
         tail_turn_point = self.body[-2] - self.body[-1]
-        if tail_turn_point == Vector2(1,0): self.tail = self.tail_left
-        elif tail_turn_point == Vector2(-1,0): self.tail = self.tail_right
-        elif tail_turn_point == Vector2(0,1): self.tail = self.tail_up
-        elif tail_turn_point == Vector2(0,-1): self.tail = self.tail_down
+        if tail_turn_point == Vector2(1, 0):
+            self.tail = self.tail_left
+        elif tail_turn_point == Vector2(-1, 0):
+            self.tail = self.tail_right
+        elif tail_turn_point == Vector2(0, 1):
+            self.tail = self.tail_up
+        elif tail_turn_point == Vector2(0, -1):
+            self.tail = self.tail_down
+
     def move_snake(self):
         if self.direction != self.next_direction:
             self.direction = self.next_direction
@@ -106,21 +118,26 @@ class Snake():
         if self.direction.x != -1 and not self.is_turning:
             self.next_direction = Vector2(1, 0)
             self.is_turning = True
-
+    def reset_snake(self):
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+        self.direction = Vector2(0, 0)
 
 class Food():
     def __init__(self):
         self.randomize()
-    def draw_fruit(self):
-        fruit_rect = pygame.Rect(self.pos.x*cell_size,self.pos.y *cell_size,cell_size,cell_size)#add int() if there is an errror here
-        screen.blit(berry,fruit_rect)
-        #pygame.draw.rect(screen,(44,44,44),fruit_rect)
 
+    def draw_fruit(self):
+        fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size,
+                                 cell_size)  # add int() if there is an errror here
+        screen.blit(berry, fruit_rect)
+        # pygame.draw.rect(screen,(44,44,44),fruit_rect)
 
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
         self.y = random.randint(0, cell_number - 1)
         self.pos = Vector2(self.x, self.y)
+
+
 # clock limits how fast our loop runs
 # Going over the pygame documentation
 class Main():
@@ -138,10 +155,15 @@ class Main():
         self.fruit.draw_fruit()
         self.snake.draw_snake()
         self.draw_score()
+
     def check_food_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
             self.snake.add_block()
+
+        for block in self.snake.body[1:]:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
 
     def check_collision(self):
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number :
@@ -150,11 +172,12 @@ class Main():
         for block in self.snake.body[1:]:
             if block==self.snake.body[0]:
                 self.game_over()
-                #chechk for snake collsion with itself
+                #check for snake collision with itself
     def game_over(self):
         running = False
         pygame.quit()
         sys.exit()
+        # self.snake.reset_snake()
     def draw_grass(self):
         grass_color = (80, 219, 33)
         for row in range(cell_number):
@@ -168,6 +191,7 @@ class Main():
                     if col % 2 != 0:
                         grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rect)
+
     def draw_score(self):
         score_text = str(len(self.snake.body)-3)
         score_surface = game_font.render(score_text,True,"black")
@@ -217,7 +241,7 @@ while running:
     screen.fill((80, 224, 32))
     main_game.draw_elements()
     pygame.display.update()
-# max 60 fps
+    # max 60 fps
     clock.tick(60)
 
 pygame.quit()
