@@ -8,7 +8,8 @@ from pygame.math import Vector2
 # TODO/done - instead of game over, make the snake reset position(reset_snake method)
 # TODO/done - pause snake movement until key is pressed after reset
 # TODO/done - track high score with text file
-# TODO - implement AI
+# TODO - implement Agent and Model
+# TODO - refine the environment(game) to be suitable for our Agent
 class Snake():
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
@@ -207,8 +208,6 @@ class HighScore():
         return False  # Not a new high score
     def get_high_score(self):
         return self.high_score
-
-
 # clock limits how fast our loop runs
 # Going over the pygame documentation
 class Main():
