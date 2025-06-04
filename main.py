@@ -4,12 +4,11 @@ from pygame.math import Vector2
 
 # TODO/done - transform the turtle snake logic to pygame snake logic
 # TODO/done - snake graphics
-# TODO - make my own graphics - change this at the end after AI agents...
 # TODO/done - instead of game over, make the snake reset position(reset_snake method)
 # TODO/done - pause snake movement until key is pressed after reset
 # TODO/done - track high score with text file
-# TODO - implement Agent and Model
-# TODO - refine the environment(game) to be suitable for our Agent
+# TODO - implement Agent and Model - CREATED NEW ENVIRONMENT(AI_SNAKE.PY)
+# TODO - refine the environment(game) to be suitable for our Agent - CREATED NEW ENVIRONMENT(AI_SNAKE.PY)
 class Snake():
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
